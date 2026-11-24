@@ -1,0 +1,34 @@
+{
+  "requiredPaths": [
+    "scripts/workspace-exit-code.mjs",
+    "scripts/workspace-exit-code.test.mjs",
+    "scripts/verify-workspace-offline.mjs",
+    "scripts/run_tests.sh",
+    "scripts/run_tests_parallel.py",
+    "tests/conftest.py",
+    "workspace_offline_guard.py",
+    "tests/agent/test_ssl_verify.py",
+    "tests/agent/test_redact.py",
+    "tests/test_retry_utils.py"
+  ],
+  "commands": [
+    ["node", "--test", "scripts/workspace-exit-code.test.mjs"],
+    [
+      "node",
+      "scripts/verify-workspace-offline.mjs"
+    ]
+  ],
+  "hosted": {
+    "workflow": "workspace-offline.yml",
+    "jobs": [
+      "verify (windows-latest)",
+      "verify (ubuntu-latest)"
+    ],
+    "steps": [
+      "Check subprocess failure propagation",
+      "Run offline workspace subset"
+    ]
+  },
+  "scope": "Reviewed offline TLS, secret redaction and retry regressions through the canonical per-file runner, isolated Hermes homes and an audit hook that refuses network connections. This is a bounded desktop subset; the upstream full CI/security workflows keep their independent requirements.",
+  "cache": false
+}
